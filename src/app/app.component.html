@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="bg-success text-white p-3">
+    <div class="text-right">{{now | date:'yyyy-MM-dd hh:mm:ss'}}</div>
+    <h1 class="text-center">My To Do List</h1>
+    <form [formGroup]="form" (submit)="add()">
+      <div class="input-group">
+        <input type="text" formControlName="name" class="form-control">
+        <button class="btn btn-primary">+</button>
+      </div>
+    </form>
+  </div>
+  <div class="list-group" *ngIf="listItem && listItem.length">
+    <div class="p-0 custom-checkbox d-flex align-items-center" *ngFor="let item of listItem; let i = index">
+      <input type="checkbox" id="checkbox{{i}}" class="custom-control-input">
+      <label for="checkbox{{i}}" class="list-group-item custom-control-label">{{item.name}}</label>
+      <button class="btn btn-outline-danger" (click)="remove(i)">×</button>
+    </div>
+  </div>
+</div>
