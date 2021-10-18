@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, timer } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +12,13 @@ export class AppComponent implements OnInit{
   title = 'my-todo-list';
   form: FormGroup;
   constructor() {}
-  listItem: any[] = [];
-  now: Date;
+  listItem: any[] = []; //In the real project, I will create a model of type listItem with attributes like name, id...
+  timer$: Observable<Date>;
 
   ngOnInit() {
-    setInterval(() => {
-      this.now = new Date();
-    }, 1);
+    this.timer$ = timer(0, 1000).pipe(
+      map(() => new Date())
+    );
     this.form = new FormGroup({
       name: new FormControl('', Validators.required)
     });
@@ -30,11 +32,11 @@ export class AppComponent implements OnInit{
       name: this.form.value.name,
       checked: false
     };
-    this.listItem.push(value);
+    this.listItem.push(value); //In the real project, I will create a service to write an add item function to be able to use it in many component
     this.form.patchValue({name: ''});
   }
 
   remove(index: any) {
-    this.listItem.splice(index, 1);
+    this.listItem.splice(index, 1); //In the real project, I will create a service to write an remove item function to be able to use it in many component
   }
 }
